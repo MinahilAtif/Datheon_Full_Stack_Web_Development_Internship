@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WeatherNow</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-sky="clear-day">
+
+  <!-- animated sky (clouds, rain, stars...) gets built in here by script.js -->
+  <div id="scene" class="scene" aria-hidden="true"></div>
+
+  <div class="page">
+
+    <header class="topbar">
+      <h1 class="logo"><span class="logo-dot"></span>Weather<span class="light">Now</span></h1>
+
+      <div class="unit-toggle glass" role="group" aria-label="Temperature unit">
+        <button type="button" data-unit="c" class="active">°C</button>
+        <button type="button" data-unit="f">°F</button>
+      </div>
+    </header>
+
+    <form id="searchForm" class="search glass" autocomplete="off">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </svg>
+      <input id="cityInput" type="text" placeholder="Search for a city, e.g. Karachi" aria-label="City name">
+      <button id="searchBtn" type="submit">Search</button>
+    </form>
+
+    <div id="recent" class="recent"></div>
+
+    <p id="errorBox" class="error" role="alert" hidden></p>
+
+    <div id="loader" class="loader glass" hidden>
+      <div class="spinner"></div>
+      <span>Getting the latest weather...</span>
+    </div>
+
+    <main id="weather" class="weather" hidden>
+
+      <section class="hero glass">
+        <p class="eyebrow" id="localTime"></p>
+        <h2 class="place"><span id="cityName"></span> <small id="regionName"></small></h2>
+
+        <div class="temp-row">
+          <span id="temp" class="temp"></span>
+          <div id="mainIcon" class="main-icon"></div>
+        </div>
+
+        <p id="condition" class="condition"></p>
+        <p id="summary" class="summary"></p>
+
+        <div class="today-range">
+          <div class="range-end"><small>Low</small><strong id="lowToday"></strong></div>
+          <div class="range-track"><span id="rangeDot" class="range-dot"></span></div>
+          <div class="range-end right"><small>High</small><strong id="highToday"></strong></div>
+        </div>
+      </section>
+
+      <section class="stats">
+
+        <article class="tile glass">
+          <div class="tile-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+            <span class="stat-label">Feels like</span>
+          </div>
+          <span class="stat-value" id="feels"></span>
+          <span class="tile-note" id="feelsNote"></span>
+        </article>
+
+        <article class="tile glass">
+          <div class="tile-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            <span class="stat-label">Humidity</span>
+          </div>
+          <span class="stat-value" id="humidity"></span>
+          <div class="meter"><span id="humidityBar" class="meter-fill"></span></div>
+          <span class="tile-note" id="humidityNote"></span>
+        </article>
+
+        <article class="tile glass">
+          <div class="tile-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+            <span class="stat-label">Wind</span>
+          </div>
+          <span class="stat-value" id="wind"></span>
+          <div class="wind-row" id="windRow">
+            <div class="compass">
+              <span class="compass-n">N</span>
+              <svg id="compassArrow" class="compass-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L17 19 L12 15.5 L7 19 Z" fill="currentColor"/></svg>
+            </div>
+            <span class="tile-note" id="windDir"></span>
+          </div>
+        </article>
+
+        <article class="tile glass">
+          <div class="tile-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></svg>
+            <span class="stat-label">Pressure</span>
+          </div>
+          <span class="stat-value" id="pressure"></span>
+          <div class="meter"><span id="pressureDot" class="meter-dot"></span></div>
+          <span class="tile-note" id="pressureNote"></span>
+        </article>
+
+      </section>
+
+      <section class="forecast">
+        <div class="forecast-head">
+          <h3>5-day forecast</h3>
+          <span>Daily high and low</span>
+        </div>
+        <div id="forecastList" class="forecast-list"></div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <span id="sourceNote"></span>
+    </footer>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
